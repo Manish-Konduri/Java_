@@ -44,6 +44,7 @@ public class MainExtended{
             }
             else if(inputq==4) {
                 if (taskManager.changeStatusCheck()) {
+
                     System.out.println("Enter id to be deleted");
                     int q = sc.nextInt();
                     if (taskManager.delete(q) == 1) {
@@ -67,7 +68,9 @@ public class MainExtended{
                     int searchIndex = sc.nextInt();
                     for (Task search : returnSearch) {
                         if(search.getId()==searchIndex)
-                        System.out.println(search);
+                            System.out.println(search);
+                        else
+                            System.out.println("No such Id Found");
                     }
                 } else {
                     System.out.println("No Data");

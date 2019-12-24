@@ -5,32 +5,34 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainExtended{
+
     public static void main(String args[])
     {
         ArrayList<Data> ar =new ArrayList<Data>();
         Scanner sc = new Scanner((System.in));
-        TaskManager t = new TaskManager();
         while (true) {
-            System.out.println("1-Add Data, 2-Print Data, 3-Search, 4-Delete, 5-Quit");
+            System.out.println("1-Add Data, 2-Print Data, 3-Search, 4-Delete, 5-Change Status, 6-View by status, 7-Quit");
             int inputq = sc.nextInt();
             if (inputq == 1) {
-                System.out.println("Enter Name, Description");
-                String name = sc.next();
-                String description = sc.nextLine();
-                LocalDate date= LocalDate.parse("2019-12-23");
-                t.adding(ar,name,description,date);
+
+                TaskManager.adding();
             } else if (inputq == 2) {
-                t.display(ar);
+                TaskManager.display();
             }
             else if(inputq==4){
-                System.out.println("Enter id to be deleted");
-                int q = sc.nextInt();
-                t.delete(ar,q);
+
+                TaskManager.delete();
             }
             else if(inputq==3){
-                t.search(ar);
+                TaskManager.search();
             }
-            else if(inputq>=5){
+            else if(inputq==5){
+                TaskManager.changeStatus();
+            }
+            else if(inputq==6){
+                TaskManager.listByStatus();
+            }
+            else if(inputq>=7){
                 break;
             }
         }

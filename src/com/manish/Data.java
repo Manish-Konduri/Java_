@@ -3,15 +3,56 @@ package com.manish;
 import java.time.LocalDate;
 
 public class Data {
-        String name;
-        String description;
-        LocalDate Date;
-        Data(String name, String description, LocalDate Date)
+    enum status{
+        Initial,
+        IN_PROGRESS,
+        Done
+    }
+        private String name;
+        private String description;
+        private LocalDate Date;
+        private status Sta;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getDate() {
+        return Date;
+    }
+
+    public void setDate(LocalDate date) {
+        Date = date;
+    }
+
+    public status getSta() {
+        return Sta;
+    }
+
+    public void setSta(status sta) {
+        Sta = sta;
+    }
+
+    Data()
         {
-            // initialize the input variable from main
-            // function to the global variable of the class
-            this.name = name;
-            this.description = description;
-            this.Date = Date;
+            this.Sta = status.Initial;
         }
+
+
+    @Override
+    public String toString() {
+        return ('\n'+"name : "+name+'\n'+"Description : "+description+'\n'+"Date : "+Date+'\n'+"Status : "+Sta+'\n');
+    }
 }

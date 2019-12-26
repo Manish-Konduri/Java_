@@ -1,34 +1,40 @@
 package com.manish;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 class TaskManager{
-    InMemoryTaskRepository imr = new InMemoryTaskRepository();
-        void adding(int id,String name, String description, LocalDate date) {
-          imr.adding(id,name,description,date);
+    TaskRepository tr = new TaskManagerRepository();
+
+    public void adding(int id, String name, String description, Date date) {
+        tr.adding(id,name,description,date);
         }
 
-        ArrayList<Task> display() {
-          return imr.display();
+        public ArrayList<Task> display() {
+          return tr.display();
         }
 
-        int delete(int q) {
-          return imr.delete(q);
+        public int delete(int q) {
+          return tr.delete(q);
         }
 
-        ArrayList<Task> search() {
-          return imr.search();
+        public ArrayList<Task> search() {
+          return tr.search();
         }
-    boolean changeStatusCheck(){
-        return imr.changeStatusCheck();
+    public boolean changeStatusCheck(){
+        return tr.changeStatusCheck();
     }
 
-        void changeStatus(int s, int i)
+        public void changeStatus(int s, int i)
         {
-        imr.changeStatus(s,i);
+        tr.changeStatus(s,i);
         }
-        ArrayList<Task> listByStatus(int er){
-           return imr.listByStatus(er);
+        public ArrayList<Task> listByStatus(){
+           return tr.listByStatus();
+        }
+        public ArrayList<Task> dueToday(){
+            return tr.dueToday();
         }
     }

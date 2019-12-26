@@ -1,11 +1,11 @@
 package com.manish;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 class InMemoryTaskRepository implements TaskRepository{
      ArrayList<Task> arrayList = new ArrayList<>();
-    public void adding(int id,String name, String description, LocalDate date) {
+    public void adding(int id,String name, String description, Date date) {
         Task d = new Task();
         d.setId(id);
         d.setName(name);
@@ -46,7 +46,7 @@ class InMemoryTaskRepository implements TaskRepository{
             return null;
         }
     }
-    boolean changeStatusCheck(){
+    public boolean changeStatusCheck(){
         return arrayList.size() > 0;
     }
 
@@ -55,43 +55,52 @@ class InMemoryTaskRepository implements TaskRepository{
        if (s == 1) {
            for (int j = 0; j < arrayList.size(); j++) {
                if (arrayList.get(j).getId() == i) {
-                   arrayList.get(j).setSta(status.Initial);
+                   arrayList.get(j).setStatus(Status.Initial);
                }
            }
        }
        else if (s == 2) {
            for (int j = 0; j < arrayList.size(); j++) {
                if (arrayList.get(j).getId() == i) {
-                   arrayList.get(j).setSta(status.IN_PROGRESS);
+                   arrayList.get(j).setStatus(Status.IN_PROGRESS);
                }
            }
        }
        if (s == 3) {
            for (int j = 0; j < arrayList.size(); j++) {
                if (arrayList.get(j).getId() == i) {
-                   arrayList.get(j).setSta(status.Done);
+                   arrayList.get(j).setStatus(Status.Done);
                }
            }
        }
 
     }
-    public ArrayList<Task> listByStatus(int er){
+    public ArrayList<Task> listByStatus(){
         ArrayList<Task> arl = new ArrayList<>();
+        int er=1;
         if(er==1) {
             for (Task task : arrayList) {
-                String qw = task.getSta().toString();
-                if (qw.equals("Initial")) {
+                String qw = task.getStatus().toString();
+                if (qw.equals("Initial") || qw.equals("IN_PROGRESS")) {
                     arl.add(task);
                 }
-                else if (qw.equals("IN_PROGRESS")) {
-                    arl.add(task);
-                }
-                else if (qw.equals("Done")) {
-                    arl.add(task);
-                }
+
             }
             return arl;
         }
         return null;
+    }
+    public ArrayList<Task> dueToday(){
+//        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd-mm-yyyy");
+        ArrayList<Task> arl = new ArrayList<>();
+        long millis=System.currentTimeMillis();
+        java.sql.Date date=new java.sql.Date(millis);
+        for (Task task : arrayList) {
+            Date qw = task.getDate();
+            if((qw.compareTo(date)==0)){
+                arl.add(task);
+            }
+        }
+        return arl;
     }
 }

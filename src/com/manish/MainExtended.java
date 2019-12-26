@@ -1,20 +1,23 @@
 package com.manish;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class MainExtended{
 
-    public static void main(String []args)
-    {
+    public static void main(String []args) throws IOException, ParseException {
         Scanner sc = new Scanner((System.in));
         TaskManager taskManager = new TaskManager();
         int id=1;
         while (true) {
-            System.out.println("1-Add Data, 2-Print Data, 3-Search, 4-Delete, 5-Change Status, 6-View by status, 7-Quit");
+            System.out.println("1-Add Data, 2-Print Data, 3-Search, 4-Delete, 5-Change Status, 6-View by status, 7-Today's due, 8-Quit");
             int inputq = sc.nextInt();
-            String spaceHandler = sc.nextLine();
+            String gr= sc.nextLine();
             if (inputq == 1) {
                 System.out.println("Enter Name");
                 String name = sc.nextLine();
@@ -22,13 +25,13 @@ public class MainExtended{
                 String description = sc.nextLine();
                 System.out.println("Enter the Date in format of 'yyyy-mm-dd'");
                 try {
-                    String dateInput = sc.next();
-                    LocalDate date = LocalDate.parse(dateInput);
-                    taskManager.adding(id,name,description,date);
+                    Date date = new SimpleDateFormat("yyyy-mm-dd").parse(sc.nextLine());
+                    taskManager.adding(id, name, description, date);
                     id=id+1;
                 }
-                catch (Exception e){
-                    System.out.println("Enter correct format of date");
+                catch (Exception e)
+                {
+                    System.out.println("Enter in correct format");
                 }
             } else if (inputq == 2) {
                 ArrayList<Task> returnDisplay;
@@ -91,7 +94,7 @@ public class MainExtended{
                         int s = sc.nextInt();
                         taskManager.changeStatus(s, i);
                     } else {
-                        System.out.println("1-Add Data, 2-Print Data, 3-Search, 4-Delete, 5-Change Status, 6-View by status, 7-Quit");
+                        System.out.println("1-Add Data, 2-Print Data, 3-Search, 4-Delete, 5-Change Status, 6-View by status,7-Today's due, 8-Quit");
                     }
                 }
                 else{
@@ -101,9 +104,8 @@ public class MainExtended{
             else if(inputq==6) {
                 try {
                     ArrayList<Task> arl1;
-                    System.out.println("1.Initial, 2.In_progress, 3.Done");
-                    int er = sc.nextInt();
-                    arl1 = taskManager.listByStatus(er);
+                    System.out.println("The Pending Tasks are:-");
+                    arl1 = taskManager.listByStatus();
                     if (arl1.size() > 0) {
                         for (Task task : arl1) {
                             System.out.println(task);
@@ -116,7 +118,18 @@ public class MainExtended{
                     System.out.println("No Data");
                 }
             }
-            else if(inputq>=7){
+            else if(inputq==7) {
+                try {
+                    ArrayList<Task> returnDueDate= taskManager.dueToday();
+                    for(Task task : returnDueDate)
+                    {
+                        System.out.println(task);
+                    }
+                } catch (Exception e) {
+                    System.out.println("No data");
+                }
+            }
+            else if(inputq>=8){
                 break;
             }
         }

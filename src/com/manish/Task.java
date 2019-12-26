@@ -1,62 +1,81 @@
 package com.manish;
 
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
 
-public class Task {
+public class Task implements Comparable<Task> {
         private String name;
         private String description;
-        private LocalDate Date;
+        private Date date;
         private int id;
-        private status Sta;
+        private Status status;
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    void setId(int id) {
-        this.id = id;
-    }
-
-    int getId() {
-        return id;
-    }
-
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-//    public String getDescription() {
-//        return description;
-//    }
+    public String getDescription() {
+        return description;
+    }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-//    public LocalDate getDate() {
-//        return Date;
-//    }
-
-    void setDate(LocalDate date) {
-        Date = date;
+    public Date getDate() {
+        return date;
     }
 
-    status getSta() {
-        return Sta;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    void setSta(status sta) {
-        Sta = sta;
+    public int getId() {
+        return id;
     }
 
-    Task()
-        {
-            this.Sta = status.Initial;
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Task()
+    {
+        this.status = Status.Initial;
+    }
 
     @Override
     public String toString() {
-        return ("Id : "+id+'\n'+"name : "+name+'\n'+"Description : "+description+'\n'+"Date : "+Date+'\n'+"Status : "+Sta+'\n');
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-mm-dd");
+        return ("Id : "+id+'\n'+"name : "+name+'\n'+"Description : "+description+'\n'+"Date : "+simpleDateFormat.format(date)+'\n'+"Status : "+ status +'\n');
+    }
+
+
+
+
+    @Override
+    public int compareTo(Task task) {
+        if(this.getDate().compareTo(task.getDate())==0)
+        {
+            return 0;
+        }
+        else if(this.getDate().compareTo(task.getDate())<0){
+            return -1;
+        }
+        else{
+            return 1;
+        }
     }
 }

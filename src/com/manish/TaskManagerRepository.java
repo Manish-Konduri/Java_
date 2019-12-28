@@ -77,17 +77,18 @@ public class TaskManagerRepository implements TaskRepository {
     }
 
     @Override
-    public ArrayList<Task> search() {
+    public ArrayList<Task> search(int q) {
         return readFromFile();
     }
 
     @Override
-    public void changeStatus(int s, int i) {
+    public boolean changeStatus(int s, int i) {
         if (s == 1) {
             for (int j = 0; j < tasks.size(); j++) {
                 if (tasks.get(j).getId() == i) {
                     tasks.get(j).setStatus(Status.Initial);
                     writeToFile(tasks);
+                    return true;
                 }
             }
         }
@@ -96,17 +97,23 @@ public class TaskManagerRepository implements TaskRepository {
                 if (tasks.get(j).getId() == i) {
                     tasks.get(j).setStatus(Status.IN_PROGRESS);
                     writeToFile(tasks);
+                    return true;
                 }
             }
         }
-        if (s == 3) {
+        else if (s == 3) {
             for (int j = 0; j < tasks.size(); j++) {
                 if (tasks.get(j).getId() == i) {
                     tasks.get(j).setStatus(Status.Done);
                     writeToFile(tasks);
+                    return true;
                 }
             }
         }
+        else{
+            return false;
+        }
+        return false;
     }
     @Override
     public boolean changeStatusCheck(){
@@ -115,9 +122,9 @@ public class TaskManagerRepository implements TaskRepository {
         return tasks.size()>0;
     }
     @Override
-    public ArrayList<Task> listByStatus() {
+    public ArrayList<Task> listByStatus(int query) {
         ArrayList<Task> arl = new ArrayList<>();
-        int query=1;
+
         if(query==1) {
             for (Task task : tasks) {
                 String qw = task.getStatus().toString();

@@ -1,7 +1,6 @@
 package com.manish;
 
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 
 public class Task implements Comparable<Task> {

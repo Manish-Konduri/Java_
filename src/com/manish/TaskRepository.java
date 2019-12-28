@@ -1,17 +1,18 @@
 package com.manish;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
 public interface TaskRepository {
-    void adding(int id,String name, String description, Date date);
+    void adding(int id,String name, String description, Date date) throws SQLException;
     int delete(int query);
     ArrayList<Task> display();
-    ArrayList<Task> search();
+    ArrayList<Task> search(int q);
     boolean changeStatusCheck();
-    void changeStatus(int s, int i);
-    ArrayList<Task> listByStatus();
+    boolean changeStatus(int s, int i);
+    ArrayList<Task> listByStatus(int lbd);
     ArrayList<Task> dueToday();
 
 }

@@ -15,7 +15,7 @@ public class MainExtended{
         TaskManager taskManager = new TaskManager();
         int id=1;
         while (true) {
-            System.out.println("1-Add Data, 2-Print Data, 3-Search, 4-Delete, 5-Change Status, 6-View by status, 7-Today's due, 8-Quit");
+            System.out.println("1-Add Data, 2-Print Data, 3-Search, 4-Delete, 5-Change Status, 6-View by status,7-Today's due, 8-Quit");
             int inputq = sc.nextInt();
             String gr= sc.nextLine();
             if (inputq == 1) {
@@ -46,66 +46,75 @@ public class MainExtended{
                 }
             }
             else if(inputq==4) {
-                if (taskManager.changeStatusCheck()) {
+                try {
 
                     System.out.println("Enter id to be deleted");
                     int q = sc.nextInt();
                     if (taskManager.delete(q) == 1) {
                         System.out.println("Deleted Successfully");
                     } else {
-                        System.out.println("No Data");
+                        System.out.println("No ID");
                     }
                 }
-                else{
-                    System.out.println("No Data");
+                catch (Exception e){
+                    System.out.println("No ID");
                 }
             }
             else if(inputq==3){
                 ArrayList<Task> returnSearch;
-                returnSearch=taskManager.search();
-                if (taskManager.changeStatusCheck()) {
-                    for (Task search : returnSearch) {
-                        System.out.println(search.getId() + " " + search.getName());
+                System.out.println("Enter the id");
+                int searchIndex = sc.nextInt();
+                returnSearch=taskManager.search(searchIndex);
+                try {
+                    if(returnSearch.size()>0) {
+                        int counter = 0;
+                        for (Task search : returnSearch) {
+                            if (search.getId() == searchIndex) {
+                                System.out.println(search);
+                                counter++;
+                            }
+                            if (counter == 0)
+                                System.out.println("No such Id Found");
+                        }
                     }
-                    System.out.println("Enter the id");
-                    int searchIndex = sc.nextInt();
-                    for (Task search : returnSearch) {
-                        if(search.getId()==searchIndex)
-                            System.out.println(search);
-                        else
-                            System.out.println("No such Id Found");
+                    else {
+                        System.out.println("No such Id Found");
                     }
-                } else {
+                } catch (Exception e){
                     System.out.println("No Data");
                 }
             }
             else if(inputq==5){
-                if(taskManager.changeStatusCheck()) {
+                try{
                     System.out.println("Do you want to change the status 1-Yes, 2-No:");
                     ArrayList<Task> ArrayListDisplay;
                     int inp = sc.nextInt();
                     if (inp == 1) {
-                        ArrayListDisplay=taskManager.search();
-                        for (Task task : ArrayListDisplay) System.out.println(task.getId() + " " + task.getName());
+//                        ArrayListDisplay=taskManager.search();
+//                        for (Task task : ArrayListDisplay) System.out.println(task.getId() + " " + task.getName());
                         System.out.println("Enter the id to be changed:");
                         int i = sc.nextInt();
                         System.out.println("What status do you want to modify to:");
                         System.out.println("1.Initial, 2.In_progress, 3.Done");
                         int s = sc.nextInt();
-                        taskManager.changeStatus(s, i);
+                        if(taskManager.changeStatus(s, i))
+                            System.out.println("Success");
+                        else
+                            System.out.println("No such Id found");
                     } else {
                         System.out.println("1-Add Data, 2-Print Data, 3-Search, 4-Delete, 5-Change Status, 6-View by status,7-Today's due, 8-Quit");
                     }
                 }
-                else{
+                catch (Exception e){
                     System.out.println("No Data");
                 }
             }
             else if(inputq==6) {
                 try {
                     ArrayList<Task> arl1;
-                    System.out.println("The Pending Tasks are:-");
-                    arl1 = taskManager.listByStatus();
+                    System.out.println("1.Initial/IN_PROGRESS, 2.Done");
+                    int lbs= sc.nextInt();
+                    arl1 = taskManager.listByStatus(lbs);
                     if (arl1.size() > 0) {
                         for (Task task : arl1) {
                             System.out.println(task);
@@ -121,6 +130,7 @@ public class MainExtended{
             else if(inputq==7) {
                 try {
                     ArrayList<Task> returnDueDate= taskManager.dueToday();
+                    System.out.println(returnDueDate.size());
                     for(Task task : returnDueDate)
                     {
                         System.out.println(task);

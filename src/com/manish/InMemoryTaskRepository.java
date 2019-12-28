@@ -24,11 +24,17 @@ class InMemoryTaskRepository implements TaskRepository{
     }
 
     public int delete(int q) {
+        int checklength=arrayList.size();
         if (arrayList.size() > 0) {
             for(int i=0;i<arrayList.size();i++) {
                 if(q==arrayList.get(i).getId()){
                     arrayList.remove(i);
-                    return 1;
+                    if(arrayList.size()==checklength){
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
                 }
             }
             return 0;
@@ -37,10 +43,17 @@ class InMemoryTaskRepository implements TaskRepository{
         }
     }
 
-    public ArrayList<Task> search() {
+    public ArrayList<Task> search(int searchIndex) {
+        ArrayList<Task> foundList = new ArrayList<>();
         if(arrayList.size()>0)
         {
-            return arrayList;
+            for (Task search : arrayList) {
+                if(search.getId()==searchIndex)
+                    foundList.add(search);
+                else
+                    return null;
+            }
+            return foundList;
         }
         else{
             return null;
@@ -50,12 +63,13 @@ class InMemoryTaskRepository implements TaskRepository{
         return arrayList.size() > 0;
     }
 
-   public void changeStatus(int s, int i) {
+   public boolean changeStatus(int s, int i) {
 
        if (s == 1) {
            for (int j = 0; j < arrayList.size(); j++) {
                if (arrayList.get(j).getId() == i) {
                    arrayList.get(j).setStatus(Status.Initial);
+                   return true;
                }
            }
        }
@@ -63,22 +77,26 @@ class InMemoryTaskRepository implements TaskRepository{
            for (int j = 0; j < arrayList.size(); j++) {
                if (arrayList.get(j).getId() == i) {
                    arrayList.get(j).setStatus(Status.IN_PROGRESS);
+                   return true;
                }
            }
        }
-       if (s == 3) {
+       else if (s == 3) {
            for (int j = 0; j < arrayList.size(); j++) {
                if (arrayList.get(j).getId() == i) {
                    arrayList.get(j).setStatus(Status.Done);
+                   return true;
                }
            }
        }
-
+       else {
+           return false;
+       }
+        return false;
     }
-    public ArrayList<Task> listByStatus(){
+    public ArrayList<Task> listByStatus(int lbs){
         ArrayList<Task> arl = new ArrayList<>();
-        int er=1;
-        if(er==1) {
+        if(lbs==1) {
             for (Task task : arrayList) {
                 String qw = task.getStatus().toString();
                 if (qw.equals("Initial") || qw.equals("IN_PROGRESS")) {
